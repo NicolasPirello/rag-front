@@ -46,14 +46,9 @@ export default function ChatScreen() {
         }
       );
 
-      // Confirma que estamos manejando la respuesta correctamente
-      console.log("API Response:", response.data);
-
-      // Accede directamente a la propiedad answer del objeto response.data
       const botMessage = {
         sender: "Bot",
-        text: response.data.answer || "Sin respuesta.",
-        sources: response.data.sources || null,
+        text: response.data?.answer || "Sin respuesta.",
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -100,11 +95,6 @@ export default function ChatScreen() {
                 className={`message ${msg.sender === "Yo" ? "user-message" : "bot-message"}`}
               >
                 <div className="message-content">{msg.text}</div>
-                {msg.sources && (
-                  <div className="message-sources">
-                    <small>Fuentes: {msg.sources}</small>
-                  </div>
-                )}
               </div>
             ))}
 
@@ -126,7 +116,7 @@ export default function ChatScreen() {
             value={message}
             onChange={adjustTextareaHeight}
             onKeyDown={handleKeyDown}
-            placeholder={showInitialScreen ? "¿Cómo puedo ayudarte hoy? (V2)" : "Escribe un mensaje..."}
+            placeholder={showInitialScreen ? "¿Cómo puedo ayudarte hoy? (V1)" : "Escribe un mensaje... (V1)"}
             className="chat-input"
             rows={1}
             disabled={isLoading}
