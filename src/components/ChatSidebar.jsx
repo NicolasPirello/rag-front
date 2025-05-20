@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import useChatStore from "../store/chatStore";
-import { focusOnInput } from "./ChatScreen";
 import DeleteAllChatsModal from "./modals/DeleteAllChatsModal";
 import DeleteSingleChatModal from "./modals/DeleteSingleChatModal";
 import "./chat-styles.css";
+
+// ✅ Función local para enfocar el input del chat
+const focusOnInput = () => {
+  window.dispatchEvent(new CustomEvent("focusOnChatInput"));
+};
 
 export default function ChatSidebar({ onClose }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -20,7 +24,7 @@ export default function ChatSidebar({ onClose }) {
   const handleCreateChat = () => {
     createChat("Nuevo Chat");
     onClose();
-    focusOnInput();
+    focusOnInput(); // Enfocar input luego de crear chat
   };
 
   const handleChatClick = (chatId) => {
@@ -65,18 +69,18 @@ export default function ChatSidebar({ onClose }) {
           ×
         </button>
       </div>
+
       <div className="sidebar-actions">
         <button className="new-chat-button" onClick={handleCreateChat}>
           + Nuevo Chat
         </button>
       </div>
+
       <div className="chat-list">
         {chats.map((chat) => (
           <div
             key={chat.id}
-            className={`chat-item ${
-              currentChat?.id === chat.id ? "active" : ""
-            }`}
+            className={`chat-item ${currentChat?.id === chat.id ? "active" : ""}`}
             onClick={() => handleChatClick(chat.id)}
           >
             <span className="chat-title">
@@ -97,6 +101,7 @@ export default function ChatSidebar({ onClose }) {
           </div>
         )}
       </div>
+
       <div className="sidebar-footer">
         <button
           className="delete-all-chats"

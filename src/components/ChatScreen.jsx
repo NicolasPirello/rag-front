@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import SendIcon from "./icons/SendIcon";
-import MicIcon from "./icons/MicIcon";
 import ChatHeader from "./ChatHeader";
 import InitialScreen from "./InitialScreen";
 import "./chat-styles.css";
@@ -46,16 +45,18 @@ export default function ChatScreen() {
         }
       );
 
+      const answerText = response.data?.answer || "Sin respuesta.";
+
       const botMessage = {
         sender: "Bot",
-        text: response.data?.answer || "Sin respuesta.",
+        text: answerText,
       };
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       const errorMessage = {
         sender: "Bot",
-        text: "Ocurrió un error al contactar la API.",
+        text: "Error al contactar con la API.",
       };
       setMessages((prev) => [...prev, errorMessage]);
       console.error("Error:", error);
@@ -116,7 +117,9 @@ export default function ChatScreen() {
             value={message}
             onChange={adjustTextareaHeight}
             onKeyDown={handleKeyDown}
-            placeholder={showInitialScreen ? "¿Cómo puedo ayudarte hoy? (V1)" : "Escribe un mensaje... (V1)"}
+            placeholder={
+              showInitialScreen ? "¿Cómo puedo ayudarte hoy?" : "Escribe un mensaje..."
+            }
             className="chat-input"
             rows={1}
             disabled={isLoading}
