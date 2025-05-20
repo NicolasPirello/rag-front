@@ -2,12 +2,10 @@
 
 export const sendTextMessage = async (message) => {
   try {
-    const formData = new FormData();
-    formData.append("content_type", "text");
-    formData.append("content", null);
-    formData.append("message", message);
-
-    const { data } = await axiosInstance.post("/ask", formData);
+    const { data } = await axiosInstance.post("/query", {
+      query: message,
+      filters: {}
+    });
     return data;
   } catch (error) {
     console.error("Error al enviar mensaje:", error);
