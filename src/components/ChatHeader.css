@@ -1,0 +1,12 @@
+.header-logo {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.header-logo-text {
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: 18px;
+  color: #2E8CCB;
+} 

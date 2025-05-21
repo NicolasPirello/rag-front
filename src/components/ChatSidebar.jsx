@@ -58,8 +58,8 @@ export default function ChatSidebar({ onClose }) {
     <div className="chat-sidebar">
       <div className="sidebar-header">
         <div className="logo-container">
-          <img src="/SofIA/escudoPolicia.svg" alt="Logo Policía" className="header-logo" />
-          <span>Sofia</span>
+          <img src="" alt="" className="header-logo" />
+          <span>Conversaciones</span>
         </div>
         <button
           className="close-sidebar-button"
@@ -72,7 +72,7 @@ export default function ChatSidebar({ onClose }) {
 
       <div className="sidebar-actions">
         <button className="new-chat-button" onClick={handleCreateChat}>
-          + Nuevo Chat
+          Nuevo Chat
         </button>
       </div>
 

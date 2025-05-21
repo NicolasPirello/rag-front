@@ -185,16 +185,18 @@ class ChatDB {
       const transaction = this.db.transaction([MESSAGES_STORE], "readwrite");
       const store = transaction.objectStore(MESSAGES_STORE);
       const index = store.index("chatId");
-      const request = index.openCursor(chatId);
+      const request = index.getAll(chatId);
 
-      request.onsuccess = (event) => {
-        const cursor = event.target.result;
-        if (cursor) {
-          cursor.delete();
-          cursor.continue();
-        } else {
-          resolve();
+      request.onsuccess = async (event) => {
+        const messages = event.target.result;
+        for (const message of messages) {
+          await new Promise((resolveDelete, rejectDelete) => {
+            const deleteRequest = store.delete(message.id);
+            deleteRequest.onsuccess = () => resolveDelete();
+            deleteRequest.onerror = () => rejectDelete(deleteRequest.error);
+          });
         }
+        resolve();
       };
       request.onerror = () => reject(request.error);
     });

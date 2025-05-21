@@ -43,7 +43,7 @@ const useChatStore = create((set, get) => ({
 
       // Si no hay chats, crear uno por defecto
       if (!savedChats || savedChats.length === 0) {
-        const defaultChat = await chatDB.createChat("Chat con SofIA");
+        const defaultChat = await chatDB.createChat("Crear Chat");
         set({
           chats: [defaultChat],
           currentChat: defaultChat,
@@ -106,7 +106,7 @@ const useChatStore = create((set, get) => ({
         if (state.currentChat?.id === chatId || updatedChats.length === 0) {
           // Si no quedan chats, crear uno por defecto
           if (updatedChats.length === 0) {
-            chatDB.createChat("Chat con SofIA").then((defaultChat) => {
+            chatDB.createChat("Chat sin Iniciar Conversacion").then((defaultChat) => {
               set({
                 chats: [defaultChat],
                 currentChat: defaultChat,
@@ -138,7 +138,7 @@ const useChatStore = create((set, get) => ({
       }
 
       // Crear un nuevo chat por defecto
-      const defaultChat = await chatDB.createChat("Chat con SofIA");
+      const defaultChat = await chatDB.createChat("Sin Conversacion Iniciada");
 
       // Actualizar el estado
       set({
