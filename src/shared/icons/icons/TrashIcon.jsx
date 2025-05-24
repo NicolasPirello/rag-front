@@ -1,6 +1,11 @@
 import React from "react";
 
-const TrashIcon = () => (
+/**
+ * @file TrashIcon.jsx
+ * @description Icon component for a trash can, typically used for delete actions.
+ * Wrapped with React.memo for performance optimization.
+ */
+const TrashIcon = (props) => ( 
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -11,6 +16,7 @@ const TrashIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    {...props} // Spread any additional props passed to the component
   >
     <path d="M3 6h18"></path>
     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -18,4 +24,4 @@ const TrashIcon = () => (
   </svg>
 );
 
-export default TrashIcon;
+export default React.memo(TrashIcon);

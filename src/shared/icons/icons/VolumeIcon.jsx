@@ -1,6 +1,11 @@
 import React from "react";
 
-const VolumeIcon = () => (
+/**
+ * @file VolumeIcon.jsx
+ * @description Icon component for volume control or audio status.
+ * Wrapped with React.memo for performance optimization.
+ */
+const VolumeIcon = (props) => ( 
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -11,6 +16,7 @@ const VolumeIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    {...props} // Spread any additional props passed to the component
   >
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
     <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -18,4 +24,4 @@ const VolumeIcon = () => (
   </svg>
 );
 
-export default VolumeIcon;
+export default React.memo(VolumeIcon);

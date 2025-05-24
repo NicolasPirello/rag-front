@@ -1,25 +1,61 @@
 import React, { useState } from "react";
-import useChatStore from "../store/chatStore";
-import useThemeMode from "../hooks/useThemeMode";
-import TrashIcon from "./icons/TrashIcon";
-import VolumeIcon from "./icons/VolumeIcon";
-import ChatSidebar from "./ChatSidebar";
-import "./chat-styles.css";
-import "./ChatHeader.css";
+import useChatListStore from "../stores/chatListStore";
+import useMessageStore from "../../../features/Chat/stores/messageStore";
+import useSettingsStore from "../../../features/Settings/stores/settingsStore";
+import useThemeMode from "../../../features/Settings/hooks/useThemeMode"; 
 
+import TrashIcon from "../../../shared/icons/TrashIcon";
+import VolumeIcon from "../../../shared/icons/VolumeIcon";
+import ChatSidebar from "./ChatSidebar";
+import "../../../features/Chat/components/chat-styles.css"; 
+import "./ChatHeader.css"; 
+
+/**
+ * @file ChatHeader.jsx
+ * @description Header component for the chat application. It displays the application logo,
+ * provides buttons for various actions like toggling audio responses, clearing messages,
+ * changing themes, and opening the chat sidebar.
+ * 
+ * This component does not receive direct props for its core functionality but uses
+ * various Zustand stores and custom hooks to manage its state and actions.
+ */
 export default function ChatHeader() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { 
-    clearMessages, 
-    toggleAudioResponses, 
-    audioResponses, 
-    toggleResponseMode, 
-    useHardcodedResponses 
-  } = useChatStore();
-  const { darkMode, toggleTheme } = useThemeMode();
 
+  const currentChat = useChatListStore((state) => state.currentChat);
+  const clearMessages = useMessageStore((state) => state.clearMessages);
+  
+  const { 
+    audioResponses, 
+    toggleAudioResponses, 
+    useHardcodedResponses, 
+    toggleResponseMode 
+  } = useSettingsStore((state) => ({
+    audioResponses: state.audioResponses,
+    toggleAudioResponses: state.toggleAudioResponses,
+    useHardcodedResponses: state.useHardcodedResponses,
+    toggleResponseMode: state.toggleResponseMode,
+  }));
+
+  const { darkMode, toggleTheme } = useThemeMode(); 
+
+  /**
+   * Toggles the visibility of the chat sidebar.
+   */
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  /**
+   * Handles clearing messages for the current active chat.
+   * If no chat is active, it does nothing.
+   */
+  const handleClearMessages = () => {
+    if (currentChat) {
+      clearMessages(currentChat.id); 
+    } else {
+      console.warn("ChatHeader: No current chat to clear messages from.");
+    }
   };
 
   return (
@@ -90,15 +126,16 @@ export default function ChatHeader() {
             {useHardcodedResponses ? "🤖" : "🔌"}
           </button>
           <button
-            onClick={clearMessages}
+            onClick={handleClearMessages} 
             className="clear-button"
-            aria-label="Borrar mensajes"
-            title="Borrar mensajes"
+            aria-label="Borrar mensajes del chat actual"
+            title="Borrar mensajes del chat actual"
+            disabled={!currentChat} 
           >
             <TrashIcon />
           </button>
           <button
-            onClick={toggleTheme}
+            onClick={toggleTheme} 
             className="theme-toggle"
             aria-label="Cambiar tema"
             title="Cambiar tema"

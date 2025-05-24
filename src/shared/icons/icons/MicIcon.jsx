@@ -1,6 +1,11 @@
 import React from "react";
 
-const MicIcon = () => (
+/**
+ * @file MicIcon.jsx
+ * @description Icon component for a microphone, typically used for audio recording actions.
+ * Wrapped with React.memo for performance optimization.
+ */
+const MicIcon = (props) => ( 
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -11,6 +16,7 @@ const MicIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    {...props} // Spread any additional props passed to the component
   >
     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
     <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
@@ -18,4 +24,4 @@ const MicIcon = () => (
   </svg>
 );
 
-export default MicIcon;
+export default React.memo(MicIcon);

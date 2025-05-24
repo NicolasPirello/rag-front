@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
-import ChatScreen from "./components/ChatScreen";
-import useChatStore from "./store/chatStore";
-import useThemeMode from "./hooks/useThemeMode";
+import ChatScreen from "./features/Chat/components/ChatScreen";
+import useChatListStore from "./features/ChatHistory/stores/chatListStore"; // New store
+import useSettingsStore from "./features/Settings/stores/settingsStore"; // New store
+// import useThemeMode from "./features/Settings/hooks/useThemeMode"; // No longer directly used here for body class
 
 const App = () => {
-  const { darkMode } = useThemeMode();
-  const initialize = useChatStore((state) => state.initialize);
+  // Directly use settingsStore for darkMode to apply to body
+  const darkMode = useSettingsStore((state) => state.darkMode);
+  const initializeChats = useChatListStore((state) => state.initializeChats);
+  const initializeSettings = useSettingsStore((state) => state.initializeSettings);
 
   useEffect(() => {
-    initialize();
-  }, [initialize]);
+    // Initialize core settings and chat list
+    initializeSettings();
+    initializeChats(); 
+    // messageStore.initializeMessages will be called by ChatScreen based on currentChat
+  }, [initializeChats, initializeSettings]);
 
   // Aplicamos la clase dark/light directamente al body para un mejor control del tema
   useEffect(() => {

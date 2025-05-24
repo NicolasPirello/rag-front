@@ -1,5 +1,5 @@
 import React from "react";
-import "../chat-styles.css";
+import "../../../features/Chat/components/chat-styles.css";
 
 const DeleteAllChatsModal = ({ onConfirm, onCancel }) => (
   <div className="modal-overlay" onClick={onCancel}>
